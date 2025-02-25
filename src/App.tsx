@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader } from "./components/ui/card";
 import { Button } from "./components/ui/button";
 import MyChart from "./components/MyChart";
 import { MyPieChart } from "./components/MyPieChart";
+import { ThemeProvider } from "./components/theme-provider";
+import { ModeToggle } from "./components/mode-toggle";
 
 function App() {
   const [history, setHistory] = useState<chrome.history.HistoryItem[]>([]);
@@ -35,40 +37,45 @@ function App() {
   // TODO: Put the top 5 most visited in a pie chart, and rest in 'other' category
 
   return (
-    <div className="App" style={{ width: "800px" }}>
-      <div className="max-w-md">
-        <MyChart />
-        <MyPieChart />
+    <ThemeProvider defaultTheme="dark">
+      <div className="flex justify-end p-4">
+        <ModeToggle />
       </div>
-      {history
-        .sort((a, b) => {
-          if (!a.visitCount) return 1;
-          if (!b.visitCount) return -1;
-          return b.visitCount - a.visitCount;
-        })
-        .map((item, index) => (
-          <Card key={index}>
-            <CardHeader>
-              <h3 className="card-title">{item.title || "No title"}</h3>
-            </CardHeader>
-            <CardContent>
-              <p>{item.url}</p>
-              <p>
-                Last visited:{" "}
-                {new Date(item.lastVisitTime || 0).toLocaleString()}
-              </p>
-              <p>Visit count: {item.visitCount}</p>
-              <Button
-                onClick={() => {
-                  chrome.tabs.create({ url: item.url });
-                }}
-              >
-                Visit
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
-    </div>
+      <div className="App" style={{ width: "800px" }}>
+        <div className="max-w-md">
+          <MyChart />
+          <MyPieChart />
+        </div>
+        {history
+          .sort((a, b) => {
+            if (!a.visitCount) return 1;
+            if (!b.visitCount) return -1;
+            return b.visitCount - a.visitCount;
+          })
+          .map((item, index) => (
+            <Card key={index}>
+              <CardHeader>
+                <h3 className="card-title">{item.title || "No title"}</h3>
+              </CardHeader>
+              <CardContent>
+                <p>{item.url}</p>
+                <p>
+                  Last visited:{" "}
+                  {new Date(item.lastVisitTime || 0).toLocaleString()}
+                </p>
+                <p>Visit count: {item.visitCount}</p>
+                <Button
+                  onClick={() => {
+                    chrome.tabs.create({ url: item.url });
+                  }}
+                >
+                  Visit
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+      </div>
+    </ThemeProvider>
   );
 }
 
