@@ -62,8 +62,8 @@ export function WebUsagePieChart({ data }: Props) {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Label List</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Website Visits</CardTitle>
+        <CardDescription>This month</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -74,26 +74,7 @@ export function WebUsagePieChart({ data }: Props) {
             <ChartTooltip
               content={<ChartTooltipContent nameKey="visits" hideLabel />}
             />
-            <Pie
-              data={chartData}
-              dataKey="visits"
-              // labelLine={false}
-              // label={({ payload, ...props }) => {
-              //   return (
-              //     <text
-              //       cx={props.cx}
-              //       cy={props.cy}
-              //       x={props.x}
-              //       y={props.y}
-              //       textAnchor={props.textAnchor}
-              //       dominantBaseline={props.dominantBaseline}
-              //       fill="var(--foreground)"
-              //     >
-              //       {payload.label}
-              //     </text>
-              //   );
-              // }}
-            />
+            <Pie data={chartData} dataKey="visits" nameKey={"label"} />
             <ChartLegend
               content={<ChartLegendContent nameKey="name" />}
               className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
