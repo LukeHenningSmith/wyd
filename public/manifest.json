@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "WYD - Vite Extension",
+  "name": "WYD - What you doing?",
   "version": "1.0",
   "permissions": ["history"],
   "action": {

@@ -16,7 +16,7 @@ function VisitCards({ history }: VisitCardsProps) {
         })
         .slice(0, 10) //top 10
         .map((item, index) => (
-          <Card key={index} className="m-2">
+          <Card key={index} className="my-2">
             <CardHeader>
               <h3 className="card-title">{item.title || "No title"}</h3>
             </CardHeader>

@@ -65,14 +65,13 @@ function App() {
 
   return (
     <ThemeProvider defaultTheme="dark">
-      <div className="flex justify-end p-4 ">
+      <div className="flex justify-between p-4 text-center h-16 items-center">
+        <span className="text-2xl font-bold">WYD</span>
         <ModeToggle />
       </div>
       <div className="App" style={{ width: "600px" }}>
-        <div className="w-full flex-col justify-center">
-          <div className="max-w-md">
-            <WebUsagePieChart data={topFiveUniqueSites} />
-          </div>
+        <div className="w-full flex-col py-4 px-8 justify-center items-center">
+          <WebUsagePieChart data={topFiveUniqueSites} />
 
           <VisitCards history={history} />
         </div>
