@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { ThemeProvider } from "./components/theme-provider";
-import { ModeToggle } from "./components/mode-toggle";
 import { WebUsagePieChart } from "./components/WebUsagePieChart";
-import VisitCards from "./components/VisitCards";
+// import VisitCards from "./components/VisitCards";
+import Header from "./components/header/Header";
 
 function App() {
   const [history, setHistory] = useState<chrome.history.HistoryItem[]>([]);
+  const [currentTab, setCurrentTab] = useState<string>("history");
 
   useEffect(() => {
     const millisecondsPerWeek = 1000 * 60 * 60 * 24 * 7;
@@ -65,15 +66,21 @@ function App() {
 
   return (
     <ThemeProvider defaultTheme="dark">
-      <div className="flex justify-between p-4 text-center h-16 items-center">
-        <span className="text-2xl font-bold">WYD</span>
-        <ModeToggle />
-      </div>
-      <div className="App" style={{ width: "600px" }}>
-        <div className="w-full flex-col py-4 px-8 justify-center items-center">
-          <WebUsagePieChart data={topFiveUniqueSites} />
+      <Header currentTab={currentTab} setCurrentTab={setCurrentTab} />
+      <div className="App" style={{ width: "700px" }}>
+        <div className="w-full flex-col py-4 px-8 mt-20 justify-center items-center">
+          {/* TODO: Use React Router's createMemoryRouter for page navigation */}
+          <div className="w-full grid grid-cols-2 gap-4">
+            <WebUsagePieChart data={topFiveUniqueSites} />
+            <WebUsagePieChart data={topFiveUniqueSites} />
+          </div>
 
-          <VisitCards history={history} />
+          <div className="w-full grid grid-cols-2 gap-4 my-4">
+            <WebUsagePieChart data={topFiveUniqueSites} />
+            <WebUsagePieChart data={topFiveUniqueSites} />
+          </div>
+
+          {/* <VisitCards history={history} /> */}
         </div>
       </div>
     </ThemeProvider>
