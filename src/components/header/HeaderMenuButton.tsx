@@ -1,27 +1,28 @@
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 
 type HeaderMenuButtonProps = {
-  id: string;
   label: string;
-  currentTab: string;
-  setCurrentTab: (tab: string) => void;
+  path: string;
 };
 
 export default function HeaderMenuButton({
-  id,
   label,
-  currentTab,
-  setCurrentTab,
+  path,
 }: HeaderMenuButtonProps) {
+  const location = useLocation();
+  const isActive = location.pathname === path;
+
   return (
-    <Button
-      variant="ghost"
-      className={`m-0 p-0 cursor-pointer hover:bg-background dark:text-zinc-300 text-zinc-500 hover:text-black dark:hover:text-white ${
-        currentTab === id ? "dark:text-white text-black" : ""
-      }`}
-      onClick={() => setCurrentTab(id)}
-    >
-      {label}
-    </Button>
+    <Link to={path}>
+      <Button
+        variant="ghost"
+        className={`m-0 p-0 cursor-pointer hover:bg-background dark:text-zinc-300 text-zinc-500 hover:text-black dark:hover:text-white ${
+          isActive ? "dark:text-white text-black" : ""
+        }`}
+      >
+        {label}
+      </Button>
+    </Link>
   );
 }
