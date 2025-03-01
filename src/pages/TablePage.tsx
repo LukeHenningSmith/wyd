@@ -1,9 +1,10 @@
 import { getHistory } from "@/api/chrome_history";
-import VisitCards from "@/components/VisitCards";
+import { HistoryTable } from "@/components/HistoryTable";
 import { TIME_PERIOD } from "@/types";
 import { useEffect, useState } from "react";
 
 function TablePage() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [history, setHistory] = useState<chrome.history.HistoryItem[]>([]);
 
   useEffect(() => {
@@ -20,7 +21,7 @@ function TablePage() {
     fetchHistory();
   }, []);
 
-  return <VisitCards history={history} />;
+  return <HistoryTable />;
 }
 
 export default TablePage;

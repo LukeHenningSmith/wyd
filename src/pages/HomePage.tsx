@@ -50,7 +50,6 @@ function HomePage() {
 
   return (
     <>
-      {history.length ? history.length : "No history"}
       <div className="w-full grid grid-cols-2 gap-4">
         <WebUsagePieChart data={topFiveUniqueSites} />
         <WebUsagePieChart data={topFiveUniqueSites} />
