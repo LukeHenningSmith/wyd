@@ -14,7 +14,7 @@ function VisitCards({ history }: VisitCardsProps) {
           if (!b.visitCount) return -1;
           return b.visitCount - a.visitCount;
         })
-        .slice(0, 10) //top 10
+        // .slice(0, 1000) //top 10
         .map((item, index) => (
           <Card key={index} className="my-2">
             <CardHeader>

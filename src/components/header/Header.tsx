@@ -1,4 +1,4 @@
-import { ModeToggle } from "../ModeToggle";
+import { ModeToggle } from "../theme/ModeToggle";
 import HeaderMenuButton from "./HeaderMenuButton";
 
 type HeaderProps = {

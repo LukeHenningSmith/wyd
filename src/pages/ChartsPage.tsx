@@ -1,5 +1,7 @@
+import MyChart from "@/components/charts/MyChart";
+
 const ChartsPage: React.FC = () => {
-  return <div>Charts Page</div>;
+  return <MyChart />;
 };
 
 export default ChartsPage;

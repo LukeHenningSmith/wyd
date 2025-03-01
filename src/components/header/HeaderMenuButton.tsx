@@ -17,7 +17,7 @@ export default function HeaderMenuButton({
     <Link to={path}>
       <Button
         variant="ghost"
-        className={`m-0 p-0 cursor-pointer hover:bg-background dark:text-zinc-300 text-zinc-500 hover:text-black dark:hover:text-white ${
+        className={`m-0 p-0 cursor-pointer hover:bg-transparent dark:text-zinc-300 text-zinc-500 hover:text-black dark:hover:text-white ${
           isActive ? "dark:text-white text-black" : ""
         }`}
       >

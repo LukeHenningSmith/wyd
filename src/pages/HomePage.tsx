@@ -1,35 +1,23 @@
-import { WebUsagePieChart } from "@/components/WebUsagePieChart";
+import { getHistory } from "@/api/chrome_history";
+import { WebUsagePieChart } from "@/components/charts/WebUsagePieChart";
+import { TIME_PERIOD } from "@/types";
 import { useEffect, useMemo, useState } from "react";
 
 function HomePage() {
   const [history, setHistory] = useState<chrome.history.HistoryItem[]>([]);
 
   useEffect(() => {
-    const millisecondsPerWeek = 1000 * 60 * 60 * 24 * 7;
-    const oneWeekAgo = new Date().getTime() - millisecondsPerWeek;
-    chrome.history.search(
-      {
-        text: "",
-        startTime: oneWeekAgo, // that was accessed less than one week ago.
-        maxResults: 100,
-      },
-      function (results) {
-        const historyList: chrome.history.HistoryItem[] = [];
-        results.forEach(function (item) {
-          historyList.push(item);
-        });
-        setHistory(historyList);
+    const fetchHistory = async () => {
+      try {
+        const historyItems = await getHistory(TIME_PERIOD.MONTH, 3);
+        setHistory(historyItems);
+      } catch (error) {
+        console.error("Failed to fetch history:", error);
       }
-    );
+    };
+
+    fetchHistory();
   }, []);
-
-  /** Features to implement
-   * 1. Landing page starts with two charts of most visited, with summary below. Has controls for last day, last week, last month.
-   * 2. Clicking the 'view more' on the summary table opens a virtualised table of all the history.
-   * 3. Clicking 'plot history' on the summary table opens a line chart of the history for a specific url.
-   */
-
-  // TODO: Put the top 5 most visited in a pie chart, and rest in 'other' category
 
   const topFiveUniqueSites = useMemo(() => {
     return history
@@ -61,17 +49,17 @@ function HomePage() {
   }, [history]);
 
   return (
-    <div className="w-full flex-col py-4 px-8 mt-20 justify-center items-center">
+    <>
+      {history.length ? history.length : "No history"}
       <div className="w-full grid grid-cols-2 gap-4">
         <WebUsagePieChart data={topFiveUniqueSites} />
         <WebUsagePieChart data={topFiveUniqueSites} />
       </div>
-
       <div className="w-full grid grid-cols-2 gap-4 my-4">
         <WebUsagePieChart data={topFiveUniqueSites} />
         <WebUsagePieChart data={topFiveUniqueSites} />
       </div>
-    </div>
+    </>
   );
 }
 
