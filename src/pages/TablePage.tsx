@@ -4,8 +4,7 @@ import { TIME_PERIOD } from "@/types";
 import { useEffect, useState } from "react";
 
 function TablePage() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [history, setHistory] = useState<chrome.history.HistoryItem[]>([]);
+  const [, setHistory] = useState<chrome.history.HistoryItem[]>([]);
 
   useEffect(() => {
     const fetchHistory = async () => {
