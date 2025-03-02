@@ -3,7 +3,17 @@
   "name": "WYD - What you doing?",
   "version": "1.0",
   "permissions": ["history"],
+  "icons": {
+    "16": "w_logo.png",
+    "48": "w_logo.png",
+    "128": "w_logo.png"
+  },
   "action": {
-    "default_popup": "index.html"
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "w_logo.png",
+      "48": "w_logo.png",
+      "128": "w_logo.png"
+    }
   }
 }

@@ -3,6 +3,7 @@ import Header from "./components/header/Header";
 import { Route, Routes } from "react-router-dom";
 import { routesConfig } from "./routes";
 import { Breadcrumbs } from "./components/Breadcrumbs";
+import Footer from "./components/footer/Footer";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             ))}
           </Routes>
         </div>
+        <Footer />
       </div>
     </ThemeProvider>
   );
