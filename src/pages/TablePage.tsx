@@ -1,26 +1,14 @@
-import { getHistory } from "@/api/chrome_history";
-import { HistoryTable } from "@/components/HistoryTable";
+// import { HistoryTable } from "@/components/HistoryTable";
+import VisitCards from "@/components/VisitCards";
+import useTempChromeHistory from "@/hooks/temp";
 import { TIME_PERIOD } from "@/types";
-import { useEffect, useState } from "react";
 
 function TablePage() {
-  const [, setHistory] = useState<chrome.history.HistoryItem[]>([]);
+  const history = useTempChromeHistory(TIME_PERIOD.DAY, 1);
 
-  useEffect(() => {
-    const fetchHistory = async () => {
-      try {
-        const historyItems = await getHistory(TIME_PERIOD.MONTH, 3);
+  return <VisitCards history={history} />;
 
-        setHistory(historyItems);
-      } catch (error) {
-        console.error("Failed to fetch history:", error);
-      }
-    };
-
-    fetchHistory();
-  }, []);
-
-  return <HistoryTable />;
+  // return <HistoryTable />;
 }
 
 export default TablePage;

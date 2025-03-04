@@ -1,4 +1,4 @@
-import { TIME_PERIOD } from "./types";
+import { HistorySchema, TIME_PERIOD } from "./types";
 
 // TODO: Add tests
 export const convertTimePeriodToMilliSeconds = (
@@ -13,4 +13,42 @@ export const convertTimePeriodToMilliSeconds = (
     case TIME_PERIOD.MONTH:
       return duration * 30 * 24 * 60 * 60 * 1000;
   }
+};
+
+// TODO: Add tests
+export const getTopFiveUniqueSites = (
+  history: chrome.history.HistoryItem[]
+): chrome.history.HistoryItem[] => {
+  return history
+    .sort((a, b) => {
+      if (!a.visitCount) return 1;
+      if (!b.visitCount) return -1;
+      return b.visitCount - a.visitCount;
+    })
+    .reduce((acc: chrome.history.HistoryItem[], item) => {
+      const existingItem = acc.find((site) => site.title === item.title);
+      if (existingItem) {
+        existingItem.visitCount =
+          (existingItem.visitCount || 0) + (item.visitCount || 0);
+        existingItem.url += `, ${item.url}`;
+      } else {
+        acc.push({ ...item });
+      }
+      return acc;
+    }, [])
+    .slice(0, 5);
+};
+
+// TODO: Add tests
+export const adaptHistoryItem = (
+  items: chrome.history.HistoryItem[]
+): HistorySchema[] => {
+  return items.map((item) => {
+    return {
+      id: item.id,
+      label: item.title || "No title",
+      visits: item.visitCount || 0,
+      url: item.url,
+    };
+  });
 };
