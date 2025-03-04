@@ -1,7 +1,7 @@
 import { TIME_PERIOD } from "@/types";
 import { convertTimePeriodToMilliSeconds } from "@/util";
 
-export const getHistory = async (
+export const getFrequentedWebsites = async (
   timePeriod: TIME_PERIOD,
   duration: number
 ): Promise<chrome.history.HistoryItem[]> => {
@@ -26,5 +26,19 @@ export const getHistory = async (
         }
       }
     );
+  });
+};
+
+export const getWebsiteVisit = async (
+  url: string
+): Promise<chrome.history.VisitItem[]> => {
+  return new Promise((resolve, reject) => {
+    chrome.history.getVisits({ url: url }, (results) => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+      } else {
+        resolve(results);
+      }
+    });
   });
 };
