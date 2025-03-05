@@ -77,13 +77,13 @@ export function WebUsagePieChart({
           className="mx-auto aspect-square max-h-[250px] [&_.recharts-text]:fill-background"
         >
           <PieChart>
-            <ChartTooltip
-              content={<ChartTooltipContent nameKey="visits" hideLabel />}
-            />
             <Pie data={chartData} dataKey="visits" nameKey={"label"} />
             <ChartLegend
               content={<ChartLegendContent nameKey="name" />}
               className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
+            />
+            <ChartTooltip
+              content={<ChartTooltipContent nameKey="visits" hideLabel />}
             />
           </PieChart>
         </ChartContainer>
