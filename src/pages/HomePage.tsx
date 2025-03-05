@@ -9,6 +9,8 @@ function HomePage() {
       <div className="w-full grid grid-cols-2 gap-4">
         <MostVisitedCard />
         <UrlTransitionsPieChart />
+        <MostVisitedCard />
+        <UrlTransitionsPieChart />
       </div>
       {/* <div className="w-full grid grid-cols-2 gap-4">
         <WebUsagePieChart

@@ -34,7 +34,7 @@ export function Breadcrumbs() {
   }, [location]);
 
   return (
-    <Breadcrumb className="mt-24 mb-6 mx-8">
+    <Breadcrumb className="mt-[5.5rem] mb-4 mx-8">
       <BreadcrumbList>
         {breadcrumbConfig.map((item, index) => (
           <>

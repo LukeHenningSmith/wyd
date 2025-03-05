@@ -1,4 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { PageVisitsChart } from "../charts/PageVisitsChart";
 import { TIME_PERIOD } from "@/types";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -7,7 +13,10 @@ export default function MostVisitedCard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Your most visted websites</CardTitle>
+        <CardTitle>Your favourite websites</CardTitle>
+        <CardDescription>
+          Shows website visits over selected time period
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="today">
