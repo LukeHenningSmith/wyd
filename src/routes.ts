@@ -1,6 +1,7 @@
-import ChartsPage from "./pages/ChartsPage";
+import BookmarksPage from "./pages/BookmarksPage";
 import HomePage from "./pages/HomePage";
-import TablePage from "./pages/TablePage";
+import TrendsPage from "./pages/TrendsPage";
+import AllPage from "./pages/AllPage";
 
 export const routesConfig = [
   {
@@ -10,15 +11,21 @@ export const routesConfig = [
     path: "/",
   },
   {
-    id: "charts",
-    label: "Charts",
-    component: ChartsPage,
-    path: "/charts",
+    id: "trends",
+    label: "Trends",
+    component: TrendsPage,
+    path: "/trends",
   },
   {
-    id: "table",
-    label: "Table",
-    component: TablePage,
-    path: "/table",
+    id: "bookmarks",
+    label: "Bookmarks",
+    component: BookmarksPage,
+    path: "/bookmarks",
+  },
+  {
+    id: "all",
+    label: "All",
+    component: AllPage,
+    path: "/all",
   },
 ];

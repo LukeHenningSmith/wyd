@@ -3,7 +3,7 @@ import VisitCards from "@/components/VisitCards";
 import useChromeHistory from "@/hooks/chrome-history";
 import { TIME_PERIOD } from "@/types";
 
-function TablePage() {
+function AllPage() {
   const history = useChromeHistory(TIME_PERIOD.DAY, 1);
 
   return <VisitCards history={history} />;
@@ -11,4 +11,4 @@ function TablePage() {
   // return <HistoryTable />;
 }
 
-export default TablePage;
+export default AllPage;

@@ -6,7 +6,7 @@ export default function BookmarkUsageCard() {
       <CardContent>
         <div className="flex flex-col gap-2">
           <div className="flex gap-2 items-center">
-            <span className="font-semibold text-3xl text-red-600">11%</span>
+            <span className="font-semibold text-3xl">11%</span>
             <span className="font-semibold text-base">
               of navigation using bookmarks
             </span>
