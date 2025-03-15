@@ -38,11 +38,11 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.87 0 0);
-  --chart-1: var(--zinc-400);
-  --chart-2: var(--zinc-500);
+  --chart-1: var(--zinc-800);
+  --chart-2: var(--zinc-700);
   --chart-3: var(--zinc-600);
-  --chart-4: var(--zinc-700);
-  --chart-5: var(--zinc-800);
+  --chart-4: var(--zinc-500);
+  --chart-5: var(--zinc-400);
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
