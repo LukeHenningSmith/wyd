@@ -13,7 +13,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { TIME_PERIOD } from "@/types";
-import useChromeHistory from "@/hooks/chrome-history";
+import { useTopFiveChromeHistory } from "@/hooks/chrome-history";
 import { useMemo } from "react";
 import { CHART_COLORS } from "@/constants";
 
@@ -39,7 +39,7 @@ type Props = {
 };
 
 export function PageVisitsChart({ timePeriod, timeDuration }: Props) {
-  const history = useChromeHistory(timePeriod, timeDuration);
+  const history = useTopFiveChromeHistory(timePeriod, timeDuration);
 
   const chartConfig: ChartConfig = useMemo(() => {
     const config: ChartConfig = {};

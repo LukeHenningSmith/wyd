@@ -1,14 +1,12 @@
-// import { HistoryTable } from "@/components/HistoryTable";
-import VisitCards from "@/components/VisitCards";
-import useChromeHistory from "@/hooks/chrome-history";
+import { AllHistoryTable } from "@/components/tables/AllHistoryTable";
+// import VisitCards from "@/components/VisitCards";
+import { useChromeHistory } from "@/hooks/chrome-history";
 import { TIME_PERIOD } from "@/types";
 
 function AllPage() {
-  const history = useChromeHistory(TIME_PERIOD.DAY, 1);
+  const history = useChromeHistory(TIME_PERIOD.MONTH, 12);
 
-  return <VisitCards history={history} />;
-
-  // return <HistoryTable />;
+  return <AllHistoryTable data={history} />;
 }
 
 export default AllPage;

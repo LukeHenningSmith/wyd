@@ -11,7 +11,7 @@ export default function BookmarkUsageCard() {
               of navigation using bookmarks
             </span>
           </div>
-          <div className="text-xs font-thin leading-none">
+          <div className="leading-none text-muted-foreground text-sm">
             May be time to create a few more bookmarks!
           </div>
         </div>

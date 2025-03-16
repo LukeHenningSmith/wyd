@@ -16,7 +16,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import useChromeHistory from "@/hooks/chrome-history";
+import { useTopFiveChromeHistory } from "@/hooks/chrome-history";
 import { TIME_PERIOD } from "@/types";
 import { useMemo } from "react";
 
@@ -39,7 +39,7 @@ export function WebUsagePieChart({
   timeDuration,
   timeString,
 }: Props) {
-  const history = useChromeHistory(timePeriod, timeDuration);
+  const history = useTopFiveChromeHistory(timePeriod, timeDuration);
 
   const chartConfig: ChartConfig = useMemo(() => {
     const config: ChartConfig = {};

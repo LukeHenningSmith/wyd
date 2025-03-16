@@ -40,7 +40,8 @@ export default function MostVisitedCard() {
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         {/* TODO: make this value dynamic */}
-        <div className="flex gap-2 font-medium leading-none">
+
+        <div className="flex gap-2 leading-none text-muted-foreground text-sm">
           Overall site usage up by 5.2% this month{" "}
           <TrendingUp className="h-4 w-4" />
         </div>
