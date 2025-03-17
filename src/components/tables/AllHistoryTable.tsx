@@ -106,7 +106,7 @@ export function AllHistoryTable({ data }: { data: HistorySchema[] }) {
         style={{
           overflow: "auto",
           position: "relative",
-          height: "380px",
+          height: "370px",
         }}
         className="rounded-md border w-full text-sm"
       >
@@ -198,6 +198,11 @@ export function AllHistoryTable({ data }: { data: HistorySchema[] }) {
             })}
           </TableBody>
         </table>
+      </div>
+      <div className="flex w-full mt-2 justify-end">
+        <span className="font-medium text-muted-foreground text-sm mr-2">
+          {rows.length.toLocaleString()} rows
+        </span>
       </div>
     </div>
   );
