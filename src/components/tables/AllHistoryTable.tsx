@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   flexRender,
@@ -11,7 +11,7 @@ import {
 } from "@tanstack/react-table";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { allHistoryTableColumns } from "./adapters";
-import { HistorySchema } from "@/types";
+import { HistorySchema, TIME_PERIOD } from "@/types";
 import {
   TableBody,
   TableCell,
@@ -19,20 +19,25 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
+import { useChromeHistory } from "@/hooks/chrome-history";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-export function AllHistoryTable({ data }: { data: HistorySchema[] }) {
+export function AllHistoryTable() {
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
 
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [timePeriod, setTimePeriod] = useState<TIME_PERIOD>(TIME_PERIOD.DAY);
+  const [timeDuration, setTimeDuration] = useState<number>(7);
+
+  const data = useChromeHistory(timePeriod, timeDuration);
+
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const columns = allHistoryTableColumns;
 
@@ -65,7 +70,7 @@ export function AllHistoryTable({ data }: { data: HistorySchema[] }) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 justify-between w-full">
         <Input
           placeholder="Search..."
           value={(table.getColumn("label")?.getFilterValue() as string) ?? ""}
@@ -74,32 +79,34 @@ export function AllHistoryTable({ data }: { data: HistorySchema[] }) {
           }
           className="max-w-sm"
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Select
+          defaultValue="all"
+          onValueChange={(value) => {
+            switch (value) {
+              case "week":
+                setTimePeriod(TIME_PERIOD.WEEK);
+                setTimeDuration(1);
+                break;
+              case "month":
+                setTimePeriod(TIME_PERIOD.MONTH);
+                setTimeDuration(1);
+                break;
+              case "all":
+                setTimePeriod(TIME_PERIOD.MONTH);
+                setTimeDuration(12);
+                break;
+            }
+          }}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="week" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="week">This week</SelectItem>
+            <SelectItem value="month">This month</SelectItem>
+            <SelectItem value="all">All time</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
       <div
         ref={tableContainerRef}
