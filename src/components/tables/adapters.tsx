@@ -8,18 +8,19 @@ export const allHistoryTableColumns: ColumnDef<HistorySchema>[] = [
     accessorKey: "id",
     enableSorting: false,
     enableHiding: false,
-    size: 100, //10
-    maxSize: 100, //10
-    minSize: 100, //10
+    size: 80,
+    maxSize: 80,
+    minSize: 80,
     enableResizing: false,
     header: "ID",
   },
   {
     accessorKey: "label",
-    size: 700, //70%
-    maxSize: 700, //70%
-    minSize: 700, //70%
+    size: 510,
+    maxSize: 510,
+    minSize: 510,
     enableResizing: false,
+    enableSorting: false,
     header: "Website",
     cell: ({ row }) => {
       const url = String(row.getValue("url"));
@@ -32,10 +33,12 @@ export const allHistoryTableColumns: ColumnDef<HistorySchema>[] = [
           onClick={() => {
             chrome.tabs.create({ url: url });
           }}
-          className="overflow-hidden whitespace-nowrap overflow-ellipsis"
+          className="w-full justify-start mr-4 cursor-pointer"
           title={website}
         >
-          {website}
+          <span className="overflow-hidden whitespace-nowrap overflow-ellipsis text-start">
+            {website}
+          </span>
           <MoveUpRight />
         </Button>
       );
@@ -43,17 +46,17 @@ export const allHistoryTableColumns: ColumnDef<HistorySchema>[] = [
   },
   {
     accessorKey: "visits",
-    size: 200, //20%
-    maxSize: 200, //20%
-    minSize: 200, //20%
+    size: 80,
+    maxSize: 80,
+    minSize: 80,
     enableResizing: false,
     header: ({ column }) => {
       return (
-        <div className="flex gap-2 items-center m-0">
+        <div className="flex items-center m-0">
           Page Visits
           <Button
             variant="ghost"
-            className="m-0"
+            className="cursor-pointer"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             <ArrowUpDown />

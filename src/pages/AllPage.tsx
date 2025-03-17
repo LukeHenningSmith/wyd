@@ -1,5 +1,4 @@
 import { AllHistoryTable } from "@/components/tables/AllHistoryTable";
-// import VisitCards from "@/components/VisitCards";
 import { useChromeHistory } from "@/hooks/chrome-history";
 import { TIME_PERIOD } from "@/types";
 

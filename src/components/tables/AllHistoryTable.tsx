@@ -1,18 +1,24 @@
-import * as React from "react";
+import React from "react";
+
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  Row,
-  SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
+  Row,
+  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useVirtualizer } from "@tanstack/react-virtual";
+import { allHistoryTableColumns } from "./adapters";
+import { HistorySchema } from "@/types";
+import {
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -20,52 +26,35 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { HistorySchema } from "@/types";
-import { allHistoryTableColumns } from "./adapters";
-import { useVirtualizer } from "@tanstack/react-virtual";
+import { Button } from "@/components/ui/button";
+import { ChevronDown } from "lucide-react";
 
 export function AllHistoryTable({ data }: { data: HistorySchema[] }) {
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const columns: ColumnDef<HistorySchema>[] = allHistoryTableColumns;
+
+  const columns = allHistoryTableColumns;
 
   const table = useReactTable({
-    data,
+    data: data,
     columns,
+    state: {
+      sorting,
+    },
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-    },
+    debugTable: true,
   });
 
   const { rows } = table.getRowModel();
 
   const rowVirtualizer = useVirtualizer({
     count: rows.length,
-    estimateSize: () => 10, //estimate row height for accurate scrollbar dragging
+    estimateSize: () => 33,
     getScrollElement: () => tableContainerRef.current,
-    //measure dynamic row height, except in firefox because it measures table border height incorrectly
     measureElement:
       typeof window !== "undefined" &&
       navigator.userAgent.indexOf("Firefox") === -1
@@ -113,27 +102,53 @@ export function AllHistoryTable({ data }: { data: HistorySchema[] }) {
         </DropdownMenu>
       </div>
       <div
-        className="container rounded-md border w-full"
-        style={{
-          overflow: "auto", //our scrollable table container
-          position: "relative", //needed for sticky header
-          height: "320px", //should be a fixed height
-        }}
         ref={tableContainerRef}
+        style={{
+          overflow: "auto",
+          position: "relative",
+          height: "380px",
+        }}
+        className="rounded-md border w-full text-sm"
       >
-        <Table>
-          <TableHeader>
+        <table style={{ display: "grid" }}>
+          <TableHeader
+            style={{
+              display: "grid",
+              position: "sticky",
+              top: 0,
+              alignItems: "center",
+              zIndex: 1,
+            }}
+          >
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow
+                key={headerGroup.id}
+                style={{ display: "flex", width: "100%", alignItems: "center" }}
+                className="bg-card hover:bg-card"
+              >
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                    <TableHead
+                      key={header.id}
+                      style={{
+                        display: "flex",
+                        width: header.getSize(),
+                        alignItems: "center",
+                      }}
+                    >
+                      <div
+                        {...{
+                          className: header.column.getCanSort()
+                            ? "cursor-pointer select-none"
+                            : "",
+                          onClick: header.column.getToggleSortingHandler(),
+                        }}
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                      </div>
                     </TableHead>
                   );
                 })}
@@ -143,54 +158,46 @@ export function AllHistoryTable({ data }: { data: HistorySchema[] }) {
           <TableBody
             style={{
               display: "grid",
-              height: `${rowVirtualizer.getTotalSize()}px`, //tells scrollbar how big the table is
-              position: "relative", //needed for absolute positioning of rows
+              height: `${rowVirtualizer.getTotalSize()}px`,
+              position: "relative",
             }}
           >
-            {rows?.length ? (
-              rowVirtualizer.getVirtualItems().map((virtualRow) => {
-                const row = rows[virtualRow.index] as Row<HistorySchema>;
-                return (
-                  <tr
-                    data-index={virtualRow.index} //needed for dynamic row height measurement
-                    ref={(node) => rowVirtualizer.measureElement(node)} //measure dynamic row height
-                    key={row.id}
-                    style={{
-                      position: "absolute",
-                      transform: `translateY(${virtualRow.start}px)`, //this should always be a `style` as it changes on scroll
-                      width: "100%",
-                    }}
-                  >
-                    {row.getVisibleCells().map((cell) => {
-                      return (
-                        <TableCell key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </TableCell>
-                      );
-                    })}
-                  </tr>
-                );
-              })
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
+            {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+              const row = rows[virtualRow.index] as Row<HistorySchema>;
+              return (
+                <TableRow
+                  data-index={virtualRow.index}
+                  ref={(node) => rowVirtualizer.measureElement(node)}
+                  key={row.id}
+                  style={{
+                    display: "flex",
+                    position: "absolute",
+                    transform: `translateY(${virtualRow.start}px)`,
+                    width: "100%",
+                  }}
                 >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
+                  {row.getVisibleCells().map((cell) => {
+                    return (
+                      <TableCell
+                        key={cell.id}
+                        style={{
+                          display: "flex",
+                          width: cell.column.getSize(),
+                          alignItems: "center",
+                        }}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
           </TableBody>
-        </Table>
-      </div>
-      <div className="flex w-full mt-2 justify-end">
-        <span className="font-medium text-muted-foreground text-sm mr-2">
-          {rows.length.toLocaleString()} rows
-        </span>
+        </table>
       </div>
     </div>
   );
