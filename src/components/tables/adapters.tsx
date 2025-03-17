@@ -23,7 +23,7 @@ export const allHistoryTableColumns: ColumnDef<HistorySchema>[] = [
     enableSorting: false,
     header: "Website",
     cell: ({ row }) => {
-      const url = String(row.getValue("url"));
+      const url = row.original.url;
       const website = String(row.getValue("label"));
 
       if (!url) return <></>;
