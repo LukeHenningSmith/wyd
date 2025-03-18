@@ -20,7 +20,6 @@ import {
   TableRow,
 } from "../ui/table";
 import { Input } from "@/components/ui/input";
-import { useChromeHistory } from "@/hooks/chrome-history";
 import {
   Select,
   SelectContent,
@@ -28,6 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useHistory } from "@/hooks/history";
 
 export function AllHistoryTable() {
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
@@ -35,14 +35,14 @@ export function AllHistoryTable() {
   const [timePeriod, setTimePeriod] = useState<TIME_PERIOD>(TIME_PERIOD.MONTH);
   const [timeDuration, setTimeDuration] = useState<number>(12);
 
-  const data = useChromeHistory(timePeriod, timeDuration);
+  const { data, isPending } = useHistory(timePeriod, timeDuration);
 
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const columns = allHistoryTableColumns;
 
   const table = useReactTable({
-    data: data,
+    data: data ?? [],
     columns,
     state: {
       sorting,
@@ -67,6 +67,8 @@ export function AllHistoryTable() {
         : undefined,
     overscan: 5,
   });
+
+  if (isPending) return <div>Pending...</div>;
 
   return (
     <div className="w-full">

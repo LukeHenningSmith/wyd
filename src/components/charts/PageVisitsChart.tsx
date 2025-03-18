@@ -15,7 +15,7 @@ import {
 import { TIME_PERIOD } from "@/types";
 import { useMemo } from "react";
 import { CHART_COLORS } from "@/constants";
-import { useTopFiveHistory } from "@/hooks/chrome-history";
+import { useTopFiveHistory } from "@/hooks/history";
 
 type Props = {
   timePeriod: TIME_PERIOD;
