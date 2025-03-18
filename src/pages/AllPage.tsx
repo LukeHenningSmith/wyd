@@ -1,7 +1,7 @@
 import { AllHistoryTable } from "@/components/tables/AllHistoryTable";
 
-function AllPage() {
+function AllHistoryPage() {
   return <AllHistoryTable />;
 }
 
-export default AllPage;
+export default AllHistoryPage;

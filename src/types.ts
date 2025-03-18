@@ -10,3 +10,10 @@ export type HistorySchema = {
   visits: number;
   url: string | undefined;
 };
+
+export type BookmarkSchema = {
+  id: string;
+  title: string;
+  url?: string;
+  lastUsed?: number;
+};

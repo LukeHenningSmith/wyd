@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "WYD - What you doing?",
   "version": "1.0",
-  "permissions": ["history", "tabs"],
+  "permissions": ["history", "tabs", "bookmarks"],
   "icons": {
     "16": "w_logo.png",
     "48": "w_logo.png",
