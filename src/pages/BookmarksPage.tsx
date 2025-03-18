@@ -1,32 +1,39 @@
-import { Card } from "@/components/ui/card";
-import useChromeBookmarks from "@/hooks/bookmarks";
+import { BookmarksPieChart } from "@/components/charts/BookmarksPieChart";
+import { useBookmarks } from "@/hooks/bookmarks";
 
 const BookmarksPage: React.FC = () => {
-  const bookmarks = useChromeBookmarks();
+  const { data, isError, error, isPending } = useBookmarks();
 
-  console.log("the bookmarks:", bookmarks);
+  {
+    /* TODO */
+  }
+  {
+    /* PIE CHART OF USED VS UNUSED BOOKMARKS in top left */
+  }
+  {
+    /* Helpful bookmarks (Bookmarks used in the last month) */
+  }
+  {
+    /* No longer used (Bookmarks you haven't used this month) */
+  }
+  {
+    /* New bookmarks (Bookmarks added in the last month) */
+  }
+
+  if (isPending) return <div>Pending...</div>;
+  if (isError) return <div>Error: {error.message}</div>;
+
   return (
-    <>
-      {/* map the bookmarkschema into cards with bright label NOT USED if lastUsed is undefined */}
-      <ul>
-        {bookmarks.map((bookmark) => (
-          <Card key={bookmark.id}>
-            <h3>{bookmark.title}</h3>
-            <p>{bookmark.url}</p>
-            {bookmark.lastUsed === undefined && (
-              <span style={{ color: "red" }}>NOT USED</span>
-            )}
-          </Card>
-        ))}
-      </ul>
-      <ul>
-        {/* TODO */}
-        {/* PIE CHART OF USED VS UNUSED BOOKMARKS in top left */}
-        {/* Helpful bookmarks (Bookmarks used in the last month) */}
-        {/* No longer used (Bookmarks you haven't used this month) */}
-        {/* New bookmarks (Bookmarks added in the last month) */}
-      </ul>
-    </>
+    <div className="w-full grid grid-cols-2 gap-4">
+      <div className="flex flex-col gap-4">
+        <BookmarksPieChart bookmarks={data} />
+        <BookmarksPieChart bookmarks={data} />
+      </div>
+      <div className="flex flex-col gap-4">
+        <BookmarksPieChart bookmarks={data} />
+        <BookmarksPieChart bookmarks={data} />
+      </div>
+    </div>
   );
 };
 

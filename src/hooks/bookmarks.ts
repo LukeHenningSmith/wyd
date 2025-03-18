@@ -1,24 +1,12 @@
 import { getBookmarksWithLastUsed } from "@/api/chrome_bookmarks";
 import { BookmarkSchema } from "@/types";
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-const useChromeBookmarks = () => {
-  const [bookmarks, setBookmarks] = useState<BookmarkSchema[]>([]);
-
-  useEffect(() => {
-    const fetchBookmarks = async () => {
-      try {
-        const result = await getBookmarksWithLastUsed();
-        setBookmarks(result);
-      } catch (error) {
-        console.error("Failed to fetch bookmarks:", error);
-      }
-    };
-
-    fetchBookmarks();
-  }, []);
-
-  return bookmarks;
-};
-
-export default useChromeBookmarks;
+export function useBookmarks() {
+  return useQuery({
+    queryKey: ["bookmarks"],
+    queryFn: async (): Promise<BookmarkSchema[]> => {
+      return await getBookmarksWithLastUsed();
+    },
+  });
+}
