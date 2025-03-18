@@ -32,8 +32,8 @@ import {
 export function AllHistoryTable() {
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
 
-  const [timePeriod, setTimePeriod] = useState<TIME_PERIOD>(TIME_PERIOD.DAY);
-  const [timeDuration, setTimeDuration] = useState<number>(7);
+  const [timePeriod, setTimePeriod] = useState<TIME_PERIOD>(TIME_PERIOD.MONTH);
+  const [timeDuration, setTimeDuration] = useState<number>(12);
 
   const data = useChromeHistory(timePeriod, timeDuration);
 
@@ -99,7 +99,7 @@ export function AllHistoryTable() {
           }}
         >
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="week" />
+            <SelectValue placeholder="all" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="week">This week</SelectItem>

@@ -21,6 +21,7 @@ const BookmarksPage: React.FC = () => {
       </ul>
       <ul>
         {/* TODO */}
+        {/* PIE CHART OF USED VS UNUSED BOOKMARKS in top left */}
         {/* Helpful bookmarks (Bookmarks used in the last month) */}
         {/* No longer used (Bookmarks you haven't used this month) */}
         {/* New bookmarks (Bookmarks added in the last month) */}
