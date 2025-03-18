@@ -1,5 +1,6 @@
 import { BookmarksPieChart } from "@/components/charts/BookmarksPieChart";
 import { useBookmarks } from "@/hooks/bookmarks";
+import { Loader } from "@/components/Loader";
 
 const BookmarksPage: React.FC = () => {
   const { data, isError, error, isPending } = useBookmarks();
@@ -20,7 +21,12 @@ const BookmarksPage: React.FC = () => {
     /* New bookmarks (Bookmarks added in the last month) */
   }
 
-  if (isPending) return <div>Pending...</div>;
+  if (isPending)
+    return (
+      <div className="flex justify-center items-center h-96">
+        <Loader size="large" />
+      </div>
+    );
   if (isError) return <div>Error: {error.message}</div>;
 
   return (
