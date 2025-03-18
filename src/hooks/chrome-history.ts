@@ -1,32 +1,49 @@
 import { getFrequentedWebsites } from "@/api/chrome_history";
 import { HistorySchema, TIME_PERIOD } from "@/types";
 import { adaptHistoryItem, getTopFiveUniqueSites } from "@/util";
+import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 
-export const useTopFiveChromeHistory = (
+export function useTopFiveHistory(
   timePeriod: TIME_PERIOD,
   timeDuration: number
-) => {
-  const [history, setHistory] = useState<HistorySchema[]>([]);
+) {
+  return useQuery({
+    queryKey: ["history", "topFive", timePeriod, timeDuration],
+    queryFn: async (): Promise<HistorySchema[]> => {
+      const historyItems = await getFrequentedWebsites(
+        timePeriod,
+        timeDuration
+      );
+      return adaptHistoryItem(getTopFiveUniqueSites(historyItems));
+    },
+  });
+}
 
-  useEffect(() => {
-    const fetchHistory = async () => {
-      try {
-        const historyItems = await getFrequentedWebsites(
-          timePeriod,
-          timeDuration
-        );
-        setHistory(adaptHistoryItem(getTopFiveUniqueSites(historyItems)));
-      } catch (error) {
-        console.error("Failed to fetch history:", error);
-      }
-    };
+// export const useTopFiveChromeHistory = (
+// timePeriod: TIME_PERIOD,
+// timeDuration: number
+// ) => {
+//   const [history, setHistory] = useState<HistorySchema[]>([]);
 
-    fetchHistory();
-  }, [timeDuration, timePeriod]);
+//   useEffect(() => {
+//     const fetchHistory = async () => {
+//       try {
+//         const historyItems = await getFrequentedWebsites(
+//           timePeriod,
+//           timeDuration
+//         );
+//         setHistory(adaptHistoryItem(getTopFiveUniqueSites(historyItems)));
+//       } catch (error) {
+//         console.error("Failed to fetch history:", error);
+//       }
+//     };
 
-  return history;
-};
+//     fetchHistory();
+//   }, [timeDuration, timePeriod]);
+
+//   return history;
+// };
 
 export const useChromeHistory = (
   timePeriod?: TIME_PERIOD,

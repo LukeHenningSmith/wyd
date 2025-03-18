@@ -13,25 +13,9 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { TIME_PERIOD } from "@/types";
-import { useTopFiveChromeHistory } from "@/hooks/chrome-history";
 import { useMemo } from "react";
 import { CHART_COLORS } from "@/constants";
-
-// const chartConfig = {
-//   desktop: {
-//     label: "Desktop",
-//     color: "var(--chart-1)",
-//   },
-// } satisfies ChartConfig;
-
-// const chartData = [
-//   { month: "January", desktop: 186 },
-//   { month: "February", desktop: 305 },
-//   { month: "March", desktop: 237 },
-//   { month: "April", desktop: 73 },
-//   { month: "May", desktop: 209 },
-//   { month: "June", desktop: 214 },
-// ];
+import { useTopFiveHistory } from "@/hooks/chrome-history";
 
 type Props = {
   timePeriod: TIME_PERIOD;
@@ -39,21 +23,23 @@ type Props = {
 };
 
 export function PageVisitsChart({ timePeriod, timeDuration }: Props) {
-  const history = useTopFiveChromeHistory(timePeriod, timeDuration);
+  const { data } = useTopFiveHistory(timePeriod, timeDuration);
 
-  const chartConfig: ChartConfig = useMemo(() => {
+  const chartConfig: ChartConfig | undefined = useMemo(() => {
+    if (!data) return;
     const config: ChartConfig = {};
-    history.forEach((item, index) => {
+    data.forEach((item, index) => {
       config[item.label] = {
         label: item.label,
         color: CHART_COLORS[index % CHART_COLORS.length],
       };
     });
     return config;
-  }, [history]);
+  }, [data]);
 
   const chartData = useMemo(() => {
-    return history.map((item, index) => {
+    if (!data) return;
+    return data.map((item, index) => {
       return {
         label: item.label,
         visits: item.visits,
@@ -61,7 +47,7 @@ export function PageVisitsChart({ timePeriod, timeDuration }: Props) {
         url: item.url,
       };
     });
-  }, [history]);
+  }, [data]);
 
   if (!chartData || !chartConfig) return null;
 
