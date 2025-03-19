@@ -7,8 +7,8 @@ import {
 } from "@/components/ui/breadcrumb";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import _upperFirst from "lodash/upperFirst";
 import { useMemo } from "react";
+import { formatBreadcrumb } from "@/util";
 
 export function Breadcrumbs() {
   const navigate = useNavigate();
@@ -22,7 +22,8 @@ export function Breadcrumbs() {
     } else {
       return pathnames.map((_, index) => {
         const path = `/${pathnames.slice(0, index + 1).join("/")}`;
-        const label = path === "/" ? "Home" : _upperFirst(pathnames[index]);
+        const label =
+          path === "/" ? "Home" : formatBreadcrumb(pathnames[index]);
 
         return {
           id: path,

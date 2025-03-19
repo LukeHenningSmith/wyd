@@ -1,4 +1,6 @@
 import { HistorySchema, TIME_PERIOD } from "./types";
+import _startCase from "lodash/startCase";
+import _toLower from "lodash/toLower";
 
 // TODO: Add tests
 export const convertTimePeriodToMilliSeconds = (
@@ -60,4 +62,9 @@ export const formatShortTimestamp = (timestamp: number): string => {
     day: "numeric",
     year: "numeric",
   }).format(new Date(Math.round(timestamp)));
+};
+
+// TODO: Add tests
+export const formatBreadcrumb = (path: string): string => {
+  return _startCase(_toLower(path));
 };
