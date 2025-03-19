@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useHistory } from "@/hooks/history";
+import { Loader } from "../Loader";
 
 export function AllHistoryTable() {
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
@@ -67,8 +68,6 @@ export function AllHistoryTable() {
         : undefined,
     overscan: 5,
   });
-
-  if (isPending) return <div>Pending...</div>;
 
   return (
     <div className="w-full">
@@ -110,109 +109,122 @@ export function AllHistoryTable() {
           </SelectContent>
         </Select>
       </div>
-      <div
-        ref={tableContainerRef}
-        style={{
-          overflow: "auto",
-          position: "relative",
-          height: "370px",
-        }}
-        className="rounded-md border w-full text-sm"
-      >
-        <table style={{ display: "grid" }}>
-          <TableHeader
+
+      {isPending ? (
+        <div className="flex justify-center items-center h-[370px]">
+          <Loader size="large" />
+        </div>
+      ) : (
+        <>
+          <div
+            ref={tableContainerRef}
             style={{
-              display: "grid",
-              position: "sticky",
-              top: 0,
-              alignItems: "center",
-              zIndex: 1,
+              overflow: "auto",
+              position: "relative",
+              height: "370px",
             }}
+            className="rounded-md border w-full text-sm"
           >
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow
-                key={headerGroup.id}
-                style={{ display: "flex", width: "100%", alignItems: "center" }}
-                className="bg-card hover:bg-card"
+            <table style={{ display: "grid" }}>
+              <TableHeader
+                style={{
+                  display: "grid",
+                  position: "sticky",
+                  top: 0,
+                  alignItems: "center",
+                  zIndex: 1,
+                }}
               >
-                {headerGroup.headers.map((header) => {
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow
+                    key={headerGroup.id}
+                    style={{
+                      display: "flex",
+                      width: "100%",
+                      alignItems: "center",
+                    }}
+                    className="bg-card hover:bg-card"
+                  >
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <TableHead
+                          key={header.id}
+                          style={{
+                            display: "flex",
+                            width: header.getSize(),
+                            alignItems: "center",
+                          }}
+                        >
+                          <div
+                            {...{
+                              className: header.column.getCanSort()
+                                ? "cursor-pointer select-none"
+                                : "",
+                              onClick: header.column.getToggleSortingHandler(),
+                            }}
+                          >
+                            {flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                          </div>
+                        </TableHead>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableHeader>
+              <TableBody
+                style={{
+                  display: "grid",
+                  height: `${rowVirtualizer.getTotalSize()}px`,
+                  position: "relative",
+                }}
+              >
+                {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                  const row = rows[virtualRow.index] as Row<HistorySchema>;
                   return (
-                    <TableHead
-                      key={header.id}
+                    <TableRow
+                      data-index={virtualRow.index}
+                      ref={(node) => rowVirtualizer.measureElement(node)}
+                      key={row.id}
                       style={{
                         display: "flex",
-                        width: header.getSize(),
-                        alignItems: "center",
+                        position: "absolute",
+                        transform: `translateY(${virtualRow.start}px)`,
+                        width: "100%",
                       }}
                     >
-                      <div
-                        {...{
-                          className: header.column.getCanSort()
-                            ? "cursor-pointer select-none"
-                            : "",
-                          onClick: header.column.getToggleSortingHandler(),
-                        }}
-                      >
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                      </div>
-                    </TableHead>
+                      {row.getVisibleCells().map((cell) => {
+                        return (
+                          <TableCell
+                            key={cell.id}
+                            style={{
+                              display: "flex",
+                              width: cell.column.getSize(),
+                              alignItems: "center",
+                            }}
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
                   );
                 })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody
-            style={{
-              display: "grid",
-              height: `${rowVirtualizer.getTotalSize()}px`,
-              position: "relative",
-            }}
-          >
-            {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-              const row = rows[virtualRow.index] as Row<HistorySchema>;
-              return (
-                <TableRow
-                  data-index={virtualRow.index}
-                  ref={(node) => rowVirtualizer.measureElement(node)}
-                  key={row.id}
-                  style={{
-                    display: "flex",
-                    position: "absolute",
-                    transform: `translateY(${virtualRow.start}px)`,
-                    width: "100%",
-                  }}
-                >
-                  {row.getVisibleCells().map((cell) => {
-                    return (
-                      <TableCell
-                        key={cell.id}
-                        style={{
-                          display: "flex",
-                          width: cell.column.getSize(),
-                          alignItems: "center",
-                        }}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </table>
-      </div>
-      <div className="flex w-full mt-2 justify-end">
-        <span className="font-medium text-muted-foreground text-sm mr-2">
-          {rows.length.toLocaleString()} rows
-        </span>
-      </div>
+              </TableBody>
+            </table>
+          </div>
+          <div className="flex w-full mt-2 justify-end">
+            <span className="font-medium text-muted-foreground text-sm mr-2">
+              {rows.length.toLocaleString()} rows
+            </span>
+          </div>
+        </>
+      )}
     </div>
   );
 }
