@@ -9,13 +9,16 @@ import {
 } from "../ui/card";
 import BookmarkCard from "./components/BookmarkCard";
 import { Button } from "../ui/button"; // Assuming you have a Button component
+import { Loader } from "../Loader";
 
 export default function BookmarksListCard({
   bookmarks,
+  isLoading,
   title,
   description,
 }: {
   bookmarks: BookmarkSchema[];
+  isLoading: boolean;
   title: string;
   description: string;
 }) {
@@ -29,23 +32,31 @@ export default function BookmarksListCard({
       </CardHeader>
 
       <CardContent>
-        <div className="flex flex-col gap-4">
-          {bookmarks.slice(0, visibleCount).map((bookmark) => (
-            <BookmarkCard key={bookmark.id} bookmark={bookmark} />
-          ))}
-        </div>
-
-        {visibleCount < bookmarks.length && (
-          <div className="flex w-full items-center justify-center ">
-            <Button
-              variant="outline"
-              className="mt-4"
-              size={"sm"}
-              onClick={() => setVisibleCount((prev) => prev + 5)}
-            >
-              Show More
-            </Button>
+        {isLoading ? (
+          <div className="flex justify-center items-center h-[250px]">
+            <Loader size="large" />
           </div>
+        ) : (
+          <>
+            <div className="flex flex-col gap-4">
+              {bookmarks.slice(0, visibleCount).map((bookmark) => (
+                <BookmarkCard key={bookmark.id} bookmark={bookmark} />
+              ))}
+            </div>
+
+            {visibleCount < bookmarks.length && (
+              <div className="flex w-full items-center justify-center ">
+                <Button
+                  variant="outline"
+                  className="mt-4"
+                  size={"sm"}
+                  onClick={() => setVisibleCount((prev) => prev + 5)}
+                >
+                  Show More
+                </Button>
+              </div>
+            )}
+          </>
         )}
       </CardContent>
     </Card>
