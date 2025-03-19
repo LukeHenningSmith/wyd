@@ -16,6 +16,7 @@ const BookmarksPage: React.FC = () => {
           bookmarks={
             data?.filter((bookmark) => bookmark.lastUsed !== undefined) || []
           }
+          isLoading={isPending}
         />
       </div>
       <div className="flex flex-col gap-4">
@@ -23,6 +24,7 @@ const BookmarksPage: React.FC = () => {
           title="Bookmarks you don't use"
           description="Bookmarks you haven't used this month"
           bookmarks={data?.filter((bookmark) => !bookmark.lastUsed) || []}
+          isLoading={isPending}
         />
       </div>
     </div>
