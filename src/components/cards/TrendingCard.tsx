@@ -11,7 +11,7 @@ function MovementCard() {
   return (
     <div className="border-b pb-2">
       <div className="flex justify-between">
-        <div className="flex text-lg">Youtube</div>
+        <div className="flex text-base">Youtube</div>
         <span className="text-sm">850 views</span>
       </div>
       <div className="flex gap-2 leading-none text-muted-foreground text-sm">

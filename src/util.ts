@@ -52,3 +52,12 @@ export const adaptHistoryItem = (
     };
   });
 };
+
+// TODO: Add tests
+export const formatShortTimestamp = (timestamp: number): string => {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(Math.round(timestamp)));
+};
