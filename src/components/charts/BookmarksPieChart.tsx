@@ -81,7 +81,7 @@ export function BookmarksPieChart({
   return (
     <Card className="flex flex-col">
       <CardHeader className="pb-0">
-        <CardTitle>Your bookmark use</CardTitle>
+        <CardTitle>Bookmark totals</CardTitle>
         <CardDescription>
           Number of unique bookmarks used this month
         </CardDescription>
