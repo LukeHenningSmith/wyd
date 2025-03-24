@@ -69,3 +69,29 @@ export async function getBookmarksWithLastUsed(): Promise<BookmarkSchema[]> {
     });
   });
 }
+
+export const getRecentBookmarks = async (): Promise<BookmarkSchema[]> => {
+  return new Promise((resolve) => {
+    chrome.bookmarks.getRecent(50, async (bookmarkTreeNodes) => {
+      const bookmarks: BookmarkSchema[] = [];
+
+      function traverse(nodes: chrome.bookmarks.BookmarkTreeNode[]) {
+        for (const node of nodes) {
+          if (node.url) {
+            bookmarks.push({
+              id: node.id,
+              title: node.title,
+              url: node.url,
+            });
+          }
+          if (node.children) {
+            traverse(node.children);
+          }
+        }
+      }
+
+      traverse(bookmarkTreeNodes);
+      resolve(bookmarks);
+    });
+  });
+};
