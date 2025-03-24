@@ -1,7 +1,7 @@
-// import BookmarkUsageCard from "@/components/cards/BookmarkUsageCard";
 import { DailyActivityCard } from "@/components/cards/DailyActivityCard";
 import MostVisitedCard from "@/components/cards/MostVisitedCard";
 import TrendingCard from "@/components/cards/TrendingCard";
+import PageVisitsToday from "@/components/cards/PageVisitsToday";
 
 function HomePage() {
   return (
@@ -11,9 +11,8 @@ function HomePage() {
         <TrendingCard />
       </div>
       <div className="flex flex-col gap-4">
+        <PageVisitsToday />
         <MostVisitedCard />
-        {/* TODO: Replace with another small widget */}
-        {/* <BookmarkUsageCard /> */}
       </div>
     </div>
   );

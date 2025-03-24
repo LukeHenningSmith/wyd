@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import BookmarkCard from "./components/BookmarkCard";
+import BookmarkCard from "./BookmarkCard";
 import { Button } from "../ui/button"; // Assuming you have a Button component
 import { Loader } from "../Loader";
 

@@ -1,15 +1,13 @@
+import { usePageVisitsToday } from "@/hooks/history";
 import { Loader } from "../Loader";
 import { Card, CardContent } from "../ui/card";
-import { BookmarkSchema } from "@/types";
 
-export default function BookmarksTotalCard({
-  bookmarks,
-  isLoading,
-}: {
-  bookmarks?: BookmarkSchema[];
-  isLoading: boolean;
-}) {
-  if (isLoading) {
+export default function PageVisitsToday() {
+  const pageVisitsTodayQuery = usePageVisitsToday(
+    new Date().toISOString().split("T")[0]
+  );
+
+  if (pageVisitsTodayQuery.isPending) {
     return (
       <Card>
         <CardContent>
@@ -25,10 +23,12 @@ export default function BookmarksTotalCard({
       <CardContent>
         <div className="flex flex-col gap-2">
           <div className="flex gap-2 items-center">
-            <span className="font-semibold text-3xl">{bookmarks?.length}</span>
+            <span className="font-semibold text-3xl">
+              {pageVisitsTodayQuery.data}
+            </span>
           </div>
           <div className="leading-none text-muted-foreground text-sm">
-            Your number of bookmarks in all folders
+            Page visits today
           </div>
         </div>
       </CardContent>

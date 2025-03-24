@@ -31,3 +31,26 @@ export function useHistory(timePeriod: TIME_PERIOD, timeDuration: number) {
     },
   });
 }
+
+export function usePageVisitsToday(date: string) {
+  return useQuery({
+    queryKey: ["page-visits-today", date],
+    queryFn: async (): Promise<number> => {
+      const lastTwoDays = await getFrequentedWebsites(TIME_PERIOD.WEEK, 2);
+      const lastDay = await getFrequentedWebsites(TIME_PERIOD.WEEK, 1);
+
+      const lastTwoDaysVisitCount = lastTwoDays
+        .filter((entry) => {
+          return entry.visitCount !== undefined;
+        })
+        .reduce((acc, item) => acc + item.visitCount!, 0);
+      const lastDayVisitCount = lastDay
+        .filter((entry) => {
+          return entry.visitCount !== undefined;
+        })
+        .reduce((acc, item) => acc + item.visitCount!, 0);
+
+      return lastTwoDaysVisitCount - lastDayVisitCount;
+    },
+  });
+}

@@ -1,5 +1,5 @@
 import BookmarksListCard from "@/components/cards/BookmarksListCard";
-import BookmarksTotalCard from "@/components/cards/BookmarksTotalCard";
+// import BookmarksTotalCard from "@/components/cards/BookmarksTotalCard";
 import { BookmarksPieChart } from "@/components/charts/BookmarksPieChart";
 import { useBookmarks } from "@/hooks/bookmarks";
 
@@ -21,7 +21,7 @@ const BookmarksPage: React.FC = () => {
         />
       </div>
       <div className="flex flex-col gap-4">
-        <BookmarksTotalCard bookmarks={data} isLoading={isPending} />
+        {/* <BookmarksTotalCard bookmarks={data} isLoading={isPending} /> */}
 
         <BookmarksListCard
           title="Bookmarks you don't use"
