@@ -12,29 +12,44 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "Tuesday", visits: 186 },
-  { month: "Wednesday", visits: 305 },
-  { month: "Thursday", visits: 237 },
-  { month: "Friday", visits: 73 },
-  { month: "Saturday", visits: 209 },
-  { month: "Sunday", visits: 214 },
-  { month: "Monday", visits: 214 },
-];
-const chartConfig = {
-  visits: {
-    label: "visits",
-    color: "var(--chart-1)",
-  },
-} satisfies ChartConfig;
+import { useUniquePageVistsWeek } from "@/hooks/history";
+import { useMemo } from "react";
 
 export function DailyActivityCard() {
+  const query = useUniquePageVistsWeek();
+
+  const chartConfig = {
+    visits: {
+      label: "visits",
+      color: "var(--chart-1)",
+    },
+  } satisfies ChartConfig;
+
+  const chartData = useMemo(() => {
+    const daysOfWeek = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const currentDayIndex = new Date().getDay() + 1;
+    return query.data?.map((count, index) => {
+      return {
+        month: daysOfWeek[(currentDayIndex + index) % 7],
+        visits: count,
+      };
+    });
+  }, [query.data]);
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Daily web activity</CardTitle>
         <CardDescription>
-          Total page visits per day this past week
+          Total unique pages visited per day this week
         </CardDescription>
       </CardHeader>
       <CardContent>

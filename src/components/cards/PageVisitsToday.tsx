@@ -1,9 +1,9 @@
-import { usePageVisitsToday } from "@/hooks/history";
+import { useUniquePageVistsToday } from "@/hooks/history";
 import { Loader } from "../Loader";
 import { Card, CardContent } from "../ui/card";
 
 export default function PageVisitsToday() {
-  const pageVisitsTodayQuery = usePageVisitsToday(
+  const pageVisitsTodayQuery = useUniquePageVistsToday(
     new Date().toISOString().split("T")[0]
   );
 
@@ -28,7 +28,7 @@ export default function PageVisitsToday() {
             </span>
           </div>
           <div className="leading-none text-muted-foreground text-sm">
-            Page visits today
+            Unique page visits today
           </div>
         </div>
       </CardContent>

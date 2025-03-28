@@ -1,4 +1,7 @@
-import { getFrequentedWebsites } from "@/api/chrome_history";
+import {
+  getFrequentedWebsites,
+  getWebVisitsBetweenDates,
+} from "@/api/chrome_history";
 import { HistorySchema, TIME_PERIOD } from "@/types";
 import { adaptHistoryItem, getTopFiveUniqueSites } from "@/util";
 import { useQuery } from "@tanstack/react-query";
@@ -32,25 +35,34 @@ export function useHistory(timePeriod: TIME_PERIOD, timeDuration: number) {
   });
 }
 
-export function usePageVisitsToday(date: string) {
+export function useUniquePageVistsToday(date: string) {
   return useQuery({
-    queryKey: ["page-visits-today", date],
+    queryKey: ["unique-page-visits-today", date],
     queryFn: async (): Promise<number> => {
-      const lastTwoDays = await getFrequentedWebsites(TIME_PERIOD.WEEK, 2);
-      const lastDay = await getFrequentedWebsites(TIME_PERIOD.WEEK, 1);
+      const lastDay = await getWebVisitsBetweenDates(
+        new Date(Date.now() - 24 * 60 * 60 * 1000),
+        new Date()
+      );
+      return lastDay.length;
+    },
+  });
+}
 
-      const lastTwoDaysVisitCount = lastTwoDays
-        .filter((entry) => {
-          return entry.visitCount !== undefined;
-        })
-        .reduce((acc, item) => acc + item.visitCount!, 0);
-      const lastDayVisitCount = lastDay
-        .filter((entry) => {
-          return entry.visitCount !== undefined;
-        })
-        .reduce((acc, item) => acc + item.visitCount!, 0);
-
-      return lastTwoDaysVisitCount - lastDayVisitCount;
+export function useUniquePageVistsWeek() {
+  return useQuery({
+    queryKey: [
+      "unique-page-visits-week",
+      new Date().toISOString().split("T")[0],
+    ],
+    queryFn: async (): Promise<number[]> => {
+      const days = [];
+      for (let i = 7; i > 0; i--) {
+        const startDate = new Date(Date.now() - 24 * 60 * 60 * 1000 * i);
+        const endDate = new Date(Date.now() - 24 * 60 * 60 * 1000 * (i - 1));
+        const dayVisits = await getWebVisitsBetweenDates(startDate, endDate);
+        days.push(dayVisits.length);
+      }
+      return days;
     },
   });
 }

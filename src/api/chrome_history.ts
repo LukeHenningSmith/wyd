@@ -29,16 +29,39 @@ export const getFrequentedWebsites = async (
   });
 };
 
-export const getWebsiteVisit = async (
-  url: string
-): Promise<chrome.history.VisitItem[]> => {
+export const getWebVisitsBetweenDates = async (
+  start: Date,
+  end: Date
+): Promise<chrome.history.HistoryItem[]> => {
   return new Promise((resolve, reject) => {
-    chrome.history.getVisits({ url: url }, (results) => {
-      if (chrome.runtime.lastError) {
-        reject(chrome.runtime.lastError);
-      } else {
-        resolve(results);
+    chrome.history.search(
+      {
+        text: "",
+        startTime: start.getTime(),
+        endTime: end.getTime(),
+        maxResults: 100000,
+      },
+      (results) => {
+        if (chrome.runtime.lastError) {
+          reject(chrome.runtime.lastError);
+        } else {
+          resolve(results);
+        }
       }
-    });
+    );
   });
 };
+
+// export const getWebsiteVisit = async (
+//   url: string
+// ): Promise<chrome.history.VisitItem[]> => {
+//   return new Promise((resolve, reject) => {
+//     chrome.history.getVisits({ url: url }, (results) => {
+//       if (chrome.runtime.lastError) {
+//         reject(chrome.runtime.lastError);
+//       } else {
+//         resolve(results);
+//       }
+//     });
+//   });
+// };
