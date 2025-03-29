@@ -1,7 +1,4 @@
-import {
-  getBookmarksWithLastUsed,
-  getRecentBookmarks,
-} from "@/api/chrome_bookmarks";
+import { getBookmarksWithLastUsed } from "@/api/chrome_bookmarks";
 import { BookmarkSchema } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 
@@ -10,15 +7,6 @@ export function useBookmarks() {
     queryKey: ["bookmarks"],
     queryFn: async (): Promise<BookmarkSchema[]> => {
       return await getBookmarksWithLastUsed();
-    },
-  });
-}
-
-export function useRecentBookmarks() {
-  return useQuery({
-    queryKey: ["recent_bookmarks"],
-    queryFn: async (): Promise<BookmarkSchema[]> => {
-      return await getRecentBookmarks();
     },
   });
 }
