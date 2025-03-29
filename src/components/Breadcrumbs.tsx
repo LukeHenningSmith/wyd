@@ -10,6 +10,8 @@ import { useLocation } from "react-router-dom";
 import { useMemo } from "react";
 import { formatBreadcrumb } from "@/util";
 
+const HOME = { id: "/", label: "Home", path: "/" };
+
 export function Breadcrumbs() {
   const navigate = useNavigate();
 
@@ -18,7 +20,7 @@ export function Breadcrumbs() {
   const breadcrumbConfig = useMemo(() => {
     const pathnames = location.pathname.split("/").filter((x) => x);
     if (pathnames.length === 0) {
-      return [{ id: "/", label: "Home", path: "/" }];
+      return [HOME];
     } else {
       return pathnames.map((_, index) => {
         const path = `/${pathnames.slice(0, index + 1).join("/")}`;

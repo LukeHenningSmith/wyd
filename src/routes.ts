@@ -17,7 +17,7 @@ export const routesConfig = [
   },
   {
     id: "all_history",
-    label: "All History",
+    label: "All history",
     component: AllHistoryPage,
     path: "/all_history",
   },
