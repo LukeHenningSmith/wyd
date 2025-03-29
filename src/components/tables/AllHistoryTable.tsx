@@ -58,7 +58,7 @@ export function AllHistoryTable() {
   const { rows } = useMemo(() => {
     return table.getRowModel();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [table, data, sorting]);
+  }, [table, data, sorting, table.getColumn("label")?.getFilterValue()]);
 
   const rowVirtualizer = useVirtualizer({
     count: rows.length,
