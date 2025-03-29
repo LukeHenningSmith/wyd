@@ -2,7 +2,7 @@ import {
   getFrequentedWebsites,
   getWebVisitsBetweenDates,
 } from "@/api/chrome_history";
-import { HistorySchema, TIME_PERIOD } from "@/types";
+import { HistoryChange, HistorySchema, TIME_PERIOD } from "@/types";
 import { adaptHistoryItem, getTopFiveUniqueSites } from "@/util";
 import { useQuery } from "@tanstack/react-query";
 
@@ -63,6 +63,41 @@ export function useUniquePageVistsWeek() {
         days.push(dayVisits.length);
       }
       return days;
+    },
+  });
+}
+
+export function usePopularTrends(
+  timePeriod: TIME_PERIOD,
+  timeDuration: number
+) {
+  return useQuery({
+    queryKey: ["popular-trends", timePeriod, timeDuration],
+    queryFn: async (): Promise<HistoryChange[]> => {
+      const twoMonthsAgo = new Date(Date.now() - 24 * 60 * 60 * 1000 * 30 * 2);
+      const monthAgo = new Date(Date.now() - 24 * 60 * 60 * 1000 * 30);
+      const now = new Date();
+
+      const thisMonthHistory = await getWebVisitsBetweenDates(monthAgo, now);
+      const thisMonthTop5 = adaptHistoryItem(
+        getTopFiveUniqueSites(thisMonthHistory)
+      );
+
+      const lastMonthHistory = await getWebVisitsBetweenDates(
+        twoMonthsAgo,
+        monthAgo
+      );
+
+      return thisMonthTop5.map((site) => {
+        const lastMonthVisits = lastMonthHistory.find(
+          (item) => item.title === site.label
+        );
+        return {
+          ...site,
+          thisPeriod: site.visits,
+          lastPeriod: lastMonthVisits?.visitCount ?? 0,
+        };
+      });
     },
   });
 }

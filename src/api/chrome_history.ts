@@ -51,17 +51,3 @@ export const getWebVisitsBetweenDates = async (
     );
   });
 };
-
-// export const getWebsiteVisit = async (
-//   url: string
-// ): Promise<chrome.history.VisitItem[]> => {
-//   return new Promise((resolve, reject) => {
-//     chrome.history.getVisits({ url: url }, (results) => {
-//       if (chrome.runtime.lastError) {
-//         reject(chrome.runtime.lastError);
-//       } else {
-//         resolve(results);
-//       }
-//     });
-//   });
-// };

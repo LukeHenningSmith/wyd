@@ -60,6 +60,7 @@ export function DailyActivityCard() {
             margin={{
               left: 12,
               right: 12,
+              top: 12,
             }}
           >
             <CartesianGrid vertical={false} />

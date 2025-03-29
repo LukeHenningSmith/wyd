@@ -1,3 +1,4 @@
+import { usePopularTrends } from "@/hooks/history";
 import {
   Card,
   CardContent,
@@ -5,34 +6,41 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { TrendingUp } from "lucide-react";
-
-function MovementCard() {
-  return (
-    <div className="border-b pb-2">
-      <div className="flex justify-between">
-        <div className="flex text-base">Youtube</div>
-        <span className="text-sm">850 views</span>
-      </div>
-      <div className="flex gap-2 leading-none text-muted-foreground text-sm">
-        Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-      </div>
-    </div>
-  );
-}
+import { TIME_PERIOD } from "@/types";
+import TrendEntry from "./components/TrendEntry";
+import { Button } from "../ui/button";
+import { useState } from "react";
 
 export default function TrendingCard() {
+  const popularTrendsQuery = usePopularTrends(TIME_PERIOD.MONTH, 1);
+  const [viewAll, setViewAll] = useState(false);
+
+  if (popularTrendsQuery.isLoading) return null; //TODO: Replace with loading indicator
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Your trending websites</CardTitle>
-        <CardDescription>Changes in monthly page visits.</CardDescription>
+        <CardTitle>Changes in your favourite sites</CardTitle>
+        <CardDescription>
+          Monthly changes in your top visited websites.
+        </CardDescription>
       </CardHeader>
 
       <CardContent>
         <div className="flex flex-col gap-4">
-          <MovementCard />
-          <MovementCard />
+          {popularTrendsQuery.data?.slice(0, viewAll ? 5 : 2).map((site) => (
+            <TrendEntry site={site} />
+          ))}
+          {!viewAll && (
+            <div className="flex w-full items-center justify-center ">
+              <Button
+                variant="outline"
+                size={"sm"}
+                onClick={() => setViewAll(true)}
+              >
+                Show More
+              </Button>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

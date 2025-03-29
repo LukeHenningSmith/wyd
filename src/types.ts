@@ -17,3 +17,8 @@ export type BookmarkSchema = {
   url?: string;
   lastUsed?: number;
 };
+
+export type HistoryChange = HistorySchema & {
+  thisPeriod: number;
+  lastPeriod: number;
+};

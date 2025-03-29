@@ -19,7 +19,7 @@ export default function BookmarksUseCard({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Used vs unused bookmarks</CardTitle>
+        <CardTitle>Used and unused bookmarks</CardTitle>
         <CardDescription>
           Bookmarks you have / haven't used this month
         </CardDescription>
