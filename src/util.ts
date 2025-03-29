@@ -2,7 +2,6 @@ import { HistorySchema, TIME_PERIOD } from "./types";
 import _startCase from "lodash/startCase";
 import _toLower from "lodash/toLower";
 
-// TODO: Add tests
 export const convertTimePeriodToMilliSeconds = (
   timePeriod: TIME_PERIOD,
   duration: number
@@ -17,7 +16,6 @@ export const convertTimePeriodToMilliSeconds = (
   }
 };
 
-// TODO: Add tests
 export const getTopFiveUniqueSites = (
   history: chrome.history.HistoryItem[]
 ): chrome.history.HistoryItem[] => {
@@ -27,21 +25,10 @@ export const getTopFiveUniqueSites = (
       if (!b.visitCount) return -1;
       return b.visitCount - a.visitCount;
     })
-    .reduce((acc: chrome.history.HistoryItem[], item) => {
-      const existingItem = acc.find((site) => site.title === item.title);
-      if (existingItem) {
-        existingItem.visitCount =
-          (existingItem.visitCount || 0) + (item.visitCount || 0);
-        existingItem.url += `, ${item.url}`;
-      } else {
-        acc.push({ ...item });
-      }
-      return acc;
-    }, [])
+    .map((item) => ({ ...item, visitCount: item.visitCount ?? 0 }))
     .slice(0, 5);
 };
 
-// TODO: Add tests
 export const adaptHistoryItem = (
   items: chrome.history.HistoryItem[]
 ): HistorySchema[] => {
@@ -55,7 +42,6 @@ export const adaptHistoryItem = (
   });
 };
 
-// TODO: Add tests
 export const formatShortTimestamp = (timestamp: number): string => {
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
@@ -64,7 +50,6 @@ export const formatShortTimestamp = (timestamp: number): string => {
   }).format(new Date(Math.round(timestamp)));
 };
 
-// TODO: Add tests
 export const formatBreadcrumb = (path: string): string => {
   return _startCase(_toLower(path));
 };
