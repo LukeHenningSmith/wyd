@@ -15,7 +15,7 @@ export default function TrendingCard() {
   const popularTrendsQuery = usePopularTrends(TIME_PERIOD.MONTH, 1);
   const [viewAll, setViewAll] = useState(false);
 
-  if (popularTrendsQuery.isLoading) return null; //TODO: Replace with loading indicator
+  if (popularTrendsQuery.isLoading) return null;
   return (
     <Card>
       <CardHeader>

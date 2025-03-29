@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BookmarkSchema } from "@/types";
 import { CardContent } from "../ui/card";
 import BookmarkCard from "./BookmarkCard";
-import { Button } from "../ui/button"; // Assuming you have a Button component
+import { Button } from "../ui/button";
 import { Loader } from "../Loader";
 
 export default function BookmarksList({

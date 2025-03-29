@@ -6,6 +6,7 @@ import { HistoryChange, HistorySchema, TIME_PERIOD } from "@/types";
 import { adaptHistoryItem, getTopFiveUniqueSites } from "@/util";
 import { useQuery } from "@tanstack/react-query";
 
+// TODO: Simplify the following hooks
 export function useTopFiveHistory(
   timePeriod: TIME_PERIOD,
   timeDuration: number
