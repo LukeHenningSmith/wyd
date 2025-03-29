@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import {
   flexRender,
@@ -40,7 +40,7 @@ export function AllHistoryTable() {
 
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const columns = allHistoryTableColumns;
+  const columns = useMemo(() => allHistoryTableColumns, []);
 
   const table = useReactTable({
     data: data ?? [],
@@ -55,7 +55,10 @@ export function AllHistoryTable() {
     debugTable: true,
   });
 
-  const { rows } = table.getRowModel();
+  const { rows } = useMemo(() => {
+    return table.getRowModel();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [table, data, sorting]);
 
   const rowVirtualizer = useVirtualizer({
     count: rows.length,
@@ -81,18 +84,18 @@ export function AllHistoryTable() {
           className="max-w-sm"
         />
         <Select
-          defaultValue="all"
+          defaultValue={timePeriod}
           onValueChange={(value) => {
             switch (value) {
-              case "week":
+              case TIME_PERIOD.DAY:
                 setTimePeriod(TIME_PERIOD.WEEK);
                 setTimeDuration(1);
                 break;
-              case "month":
+              case TIME_PERIOD.WEEK:
                 setTimePeriod(TIME_PERIOD.MONTH);
                 setTimeDuration(1);
                 break;
-              case "all":
+              case TIME_PERIOD.MONTH:
                 setTimePeriod(TIME_PERIOD.MONTH);
                 setTimeDuration(12);
                 break;
@@ -100,12 +103,12 @@ export function AllHistoryTable() {
           }}
         >
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="all" />
+            <SelectValue placeholder={TIME_PERIOD.MONTH} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="week">This week</SelectItem>
-            <SelectItem value="month">This month</SelectItem>
-            <SelectItem value="all">All time</SelectItem>
+            <SelectItem value={TIME_PERIOD.DAY}>This week</SelectItem>
+            <SelectItem value={TIME_PERIOD.WEEK}>This month</SelectItem>
+            <SelectItem value={TIME_PERIOD.MONTH}>All time</SelectItem>
           </SelectContent>
         </Select>
       </div>

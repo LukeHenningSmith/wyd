@@ -27,6 +27,7 @@ export function useHistory(timePeriod: TIME_PERIOD, timeDuration: number) {
   return useQuery({
     queryKey: ["history", timePeriod, timeDuration],
     queryFn: async (): Promise<HistorySchema[]> => {
+      console.log("useHistory hook running");
       const historyItems = await getFrequentedWebsites(
         timePeriod ?? TIME_PERIOD.MONTH,
         timeDuration ?? 12
