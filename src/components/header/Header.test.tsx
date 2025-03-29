@@ -4,7 +4,6 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter, useNavigate } from "react-router-dom";
 import Header from "./Header";
 
-// Mock `useNavigate` from react-router-dom
 vi.mock("react-router-dom", async (importOriginal) => {
   const actual = (await importOriginal()) as typeof import("react-router-dom");
   return {
@@ -13,7 +12,6 @@ vi.mock("react-router-dom", async (importOriginal) => {
   };
 });
 
-// Mock `ModeToggle` and `HeaderMenuButton` components
 vi.mock("../theme/ModeToggle", () => ({
   ModeToggle: () => <div data-testid="mode-toggle">ModeToggle</div>,
 }));
