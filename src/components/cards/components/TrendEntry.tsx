@@ -9,13 +9,13 @@ export default function TrendEntry({ site }: { site: HistoryChange }) {
       <div className="flex justify-between">
         <div className="flex text-sm">
           {site.label}
-          <span className="text-sm text-muted-foreground ml-2">
+          <span className="text-xs text-muted-foreground ml-2">
             ({site.thisPeriod} views)
           </span>
         </div>
       </div>
 
-      <div className="flex gap-2 leading-none text-muted-foreground text-sm">
+      <div className="flex gap-2 leading-none text-muted-foreground text-xs">
         {change === 0 ? (
           "No change in views this month"
         ) : (
