@@ -6,7 +6,8 @@ import { HistoryChange, HistorySchema, TIME_PERIOD } from "@/types";
 import { adaptHistoryItem, getTopFiveUniqueSites } from "@/util";
 import { useQuery } from "@tanstack/react-query";
 
-// TODO: Simplify the following hooks
+const MS_IN_DAY = 24 * 60 * 60 * 1000; //Milliseconds in a day
+
 export function useTopFiveHistory(
   timePeriod: TIME_PERIOD,
   timeDuration: number
@@ -42,7 +43,7 @@ export function useUniquePageVistsToday(date: string) {
     queryKey: ["unique-page-visits-today", date],
     queryFn: async (): Promise<number> => {
       const lastDay = await getWebVisitsBetweenDates(
-        new Date(Date.now() - 24 * 60 * 60 * 1000),
+        new Date(Date.now() - MS_IN_DAY),
         new Date()
       );
       return lastDay.length;
@@ -59,8 +60,8 @@ export function useUniquePageVistsWeek() {
     queryFn: async (): Promise<number[]> => {
       const days = [];
       for (let i = 7; i > 0; i--) {
-        const startDate = new Date(Date.now() - 24 * 60 * 60 * 1000 * i);
-        const endDate = new Date(Date.now() - 24 * 60 * 60 * 1000 * (i - 1));
+        const startDate = new Date(Date.now() - MS_IN_DAY * i);
+        const endDate = new Date(Date.now() - MS_IN_DAY * (i - 1));
         const dayVisits = await getWebVisitsBetweenDates(startDate, endDate);
         days.push(dayVisits.length);
       }
@@ -76,15 +77,12 @@ export function usePopularTrends(
   return useQuery({
     queryKey: ["popular-trends", timePeriod, timeDuration],
     queryFn: async (): Promise<HistoryChange[]> => {
-      const twoMonthsAgo = new Date(Date.now() - 24 * 60 * 60 * 1000 * 30 * 2);
-      const monthAgo = new Date(Date.now() - 24 * 60 * 60 * 1000 * 30);
+      const twoMonthsAgo = new Date(Date.now() - MS_IN_DAY * 30 * 2);
+      const monthAgo = new Date(Date.now() - MS_IN_DAY * 30);
       const now = new Date();
 
       const thisMonthHistory = await getWebVisitsBetweenDates(monthAgo, now);
-      const thisMonthTop5 = adaptHistoryItem(
-        getTopFiveUniqueSites(thisMonthHistory)
-      );
-
+      const thisMonthTop5 = getTopFiveUniqueSites(thisMonthHistory);
       const lastMonthHistory = await getWebVisitsBetweenDates(
         twoMonthsAgo,
         monthAgo
@@ -92,11 +90,14 @@ export function usePopularTrends(
 
       return thisMonthTop5.map((site) => {
         const lastMonthVisits = lastMonthHistory.find(
-          (item) => item.title === site.label
+          (item) => item.title === site.title
         );
         return {
-          ...site,
-          thisPeriod: site.visits,
+          id: site.id,
+          label: site.title || "No title",
+          visits: site.visitCount || 0,
+          url: site.url,
+          thisPeriod: site.visitCount ?? 0,
           lastPeriod: lastMonthVisits?.visitCount ?? 0,
         };
       });
