@@ -4,19 +4,19 @@ WYD? is a Chrome extension designed to help users reflect on their daily browsin
 
 ## Key features:
 
-### Exciting and insightful visualisations supported by [shadcn](https://ui.shadcn.com/) and [TailwindCSS](https://tailwindcss.com/)
+#### Exciting and insightful visualisations supported by [shadcn](https://ui.shadcn.com/) and [TailwindCSS](https://tailwindcss.com/)
 
 ![Demo GIF](assets/todo1.gif)
 
-### Network response caching for seamless UX and refresh using [Tanstack-Query](https://tanstack.com/query/latest)
+#### Network response caching for seamless UX and refresh using [Tanstack-Query](https://tanstack.com/query/latest)
 
 ![Demo GIF](assets/todo2.gif)
 
-### Renders 10,000+ row tables nearly instantly using virtualisation using [react-window](https://www.npmjs.com/package/react-window)
+#### Renders 10,000+ row tables nearly instantly using virtualisation using [react-window](https://www.npmjs.com/package/react-window)
 
 ![Demo GIF](assets/todo3.gif)
 
-### Full light/dark mode support with custom CSS view transition
+#### Full light/dark mode support with custom CSS view transition
 
 ![Demo GIF](assets/todo4.gif)
 
