@@ -6,17 +6,17 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"), // Ensure this alias is set up
+      "@": path.resolve(__dirname, "./src"),
     },
   },
   test: {
-    globals: true, // Enables global `expect` and other Vitest globals
-    setupFiles: "./src/setupTests.ts", // Add this line
-    environment: "jsdom", // Ensure the test environment is set to jsdom
+    globals: true,
+    setupFiles: "./src/setupTests.ts",
+    environment: "jsdom",
     coverage: {
-      provider: "istanbul", // or 'v8'
+      provider: "istanbul",
       include: ["src/**/*"],
-      exclude: ["src/api/**/*", "src/components/ui/**/*"], // Exclude the api folder and the components/ui folder
+      exclude: ["src/api/**/*", "src/components/ui/**/*"],
     },
   },
 });
