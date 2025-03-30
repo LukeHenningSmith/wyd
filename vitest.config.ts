@@ -16,7 +16,7 @@ export default defineConfig({
     coverage: {
       provider: "istanbul", // or 'v8'
       include: ["src/**/*"],
-      exclude: ["src/api/**/*"], // Exclude the api folder
+      exclude: ["src/api/**/*", "src/components/ui/**/*"], // Exclude the api folder and the components/ui folder
     },
   },
 });
