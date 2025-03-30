@@ -20,8 +20,8 @@ export default function TrendEntry({ site }: { site: HistoryChange }) {
           "No change in views this month"
         ) : (
           <>
-            Trending {change > 0 ? "up" : "down"} by {change.toFixed(2)}% this
-            month{" "}
+            Trending {change > 0 ? "up" : "down"} by{" "}
+            {Math.abs(change).toFixed(2)}% this month{" "}
             {change > 0 ? (
               <TrendingUp className="h-4 w-4" />
             ) : (

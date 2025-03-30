@@ -30,17 +30,19 @@ export default function TrendingCard() {
           {popularTrendsQuery.data?.slice(0, viewAll ? 5 : 2).map((site) => (
             <TrendEntry site={site} />
           ))}
-          {!viewAll && (
-            <div className="flex w-full items-center justify-center ">
-              <Button
-                variant="outline"
-                size={"sm"}
-                onClick={() => setViewAll(true)}
-              >
-                Show More
-              </Button>
-            </div>
-          )}
+          {!viewAll &&
+            popularTrendsQuery?.data &&
+            popularTrendsQuery.data.length > 2 && (
+              <div className="flex w-full items-center justify-center ">
+                <Button
+                  variant="outline"
+                  size={"sm"}
+                  onClick={() => setViewAll(true)}
+                >
+                  Show More
+                </Button>
+              </div>
+            )}
         </div>
       </CardContent>
     </Card>
