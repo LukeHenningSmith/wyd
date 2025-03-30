@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { ModeToggle } from "../theme/ModeToggle";
 import HeaderMenuButton from "./HeaderMenuButton";
 
-type HeaderProps = {
+export type HeaderProps = {
   config: {
     id: string;
     label: string;

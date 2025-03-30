@@ -14,13 +14,20 @@ import {
 } from "@/components/ui/chart";
 import { TIME_PERIOD } from "@/types";
 import { useMemo } from "react";
-import { CHART_COLORS } from "@/constants";
 import { useTopFiveHistory } from "@/hooks/history";
 
 type Props = {
   timePeriod: TIME_PERIOD;
   timeDuration: number;
 };
+
+const CHART_COLORS = [
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
+];
 
 export function PageVisitsChart({ timePeriod, timeDuration }: Props) {
   const { data } = useTopFiveHistory(timePeriod, timeDuration);
