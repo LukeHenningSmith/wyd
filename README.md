@@ -1,36 +1,26 @@
 # WYD? - (What You Doing?)
 
-**_WYD?_** is a Chrome extension designed to help users reflect on their daily browsing and bookmark habits by providing clear and insightful metrics in an aesthetic dashboard. The goal is to help users answer the simple yet important question: _What did I actually do today (...this week? this month?)?_
+WYD? is a Chrome extension designed to help users reflect on their daily browsing and bookmark habits by providing clear and insightful metrics in an aesthetic dashboard. The goal is to help users answer the simple yet important question: _What did I actually do today (...this week? this month?)?_
 
 ## Key features:
 
-### Exciting and insightful visualisations
-
-  <!-- TODO1: Add gif of loading the first two tabs & scrolling them -->
+### Exciting and insightful visualisations supported by [shadcn](https://ui.shadcn.com/) and [TailwindCSS](https://tailwindcss.com/)
 
 ![Demo GIF](assets/todo1.gif)
 
-### Network caching for rapid and seamless refetch using Tanstack-Query
-
-  <!-- TODO2: Add gif of switching between tabs loading instantly -->
+### Network response caching for seamless UX and refresh using [Tanstack-Query](https://tanstack.com/query/latest)
 
 ![Demo GIF](assets/todo2.gif)
 
-### Renders 10,000+ row tables nearly instantly using virtualisation
-
-<!-- TODO3: Add gif of interacting with the table to show speed -->
+### Renders 10,000+ row tables nearly instantly using virtualisation using [react-window](https://www.npmjs.com/package/react-window)
 
 ![Demo GIF](assets/todo3.gif)
 
-### Full light/dark mode support with system-settings detection
-
-<!-- TODO4: Add gif of the light/dark mode switching -->
+### Full light/dark mode support with custom CSS view transition
 
 ![Demo GIF](assets/todo4.gif)
 
 ## How to run:
-
-<!-- TODO -->
 
 1. **Install Dependencies**  
    Ensure you have [pnpm](https://pnpm.io/) installed. Then, run the following command in the project directory to install all dependencies:
