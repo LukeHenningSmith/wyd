@@ -83,13 +83,6 @@ export function PageVisitsChart({ timePeriod, timeDuration }: Props) {
             fontSize={12}
             width={600}
           />
-          {/* <LabelList
-            dataKey="visits"
-            position="insideLeft"
-            offset={8}
-            className="fill-background"
-            fontSize={12}
-          /> */}
         </Bar>
       </BarChart>
     </ChartContainer>
